@@ -151,3 +151,10 @@ nav ul li a:hover::after{
     margin-top: 50px;
     color: red;
 }
+.services-list div{
+    background: #262626;
+    padding: 40px;
+    font-size: 13px;
+    font-weight: 300;
+    border-right: 10px;
+}
