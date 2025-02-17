@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="header">
+    <div class="container">
+        <nav>
+            <img src="images/logo.png" class="logo">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#">Portfolio</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-text">
+            <p>Dream it.</p>
+            <h1>Build it. <span>Live it</span><br></h1><h2>-Sanal Nayyar</h2> 
+        </div>
+    </div>
+</div>
+<!-- ---------------about------------ -->
+<div id="about">
+    <div class="container">
+        <div class="row">
+            <div class="about-col-1">
+                <img src="images/user.png">
+            </div>
+            <div class="about-col-2">
+                <h1 class="sub-title">About Me</h1>
+                <p>Hi, I’m <span class="aboutd">Sanal Nayyar</span> a curious and passionate Computer Science student at Rishihood University, Newton School of Technology, with a focus on AI and Machine Learning. As I explore the vast world of technology, I’m also building my skills and knowledge to shape a fulfilling future.
+                    My ambition is to become a game-changer  with dreams of developing impactful projects and making a mark in the world.
+                   Alongside my tech aspirations, I’m building my personal brand through my YouTube and Instagram series, where I document my journey of personal growth, tech explorations, student life, and more. My content blends humor, lightheartedness, and authenticity, reflecting my introverted yet unpredictable personality.
+                   I also have hands-on experience in social media management and graphic Design, where I’ve helped build organisations, creating and planning engaging content strategies , and design visuals that resonate with audiences.
+                   In a world full of possibilities, I believe in dreaming big, working hard, and having fun along the way. Let’s connect, collaborate, and build something extraordinary together!
+                   </p>
+
+                <div class="tab-titles">
+                    <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
+                    <p class="tab-links" onclick="opentab('experience')">Experience</p>
+                    <p class="tab-links" onclick="opentab('education')">Education</p>
+                </div>
+                <div class="tab-contents active-tab" id="skills">
+                    <ul>
+                        <li><span>Graphic Designing</span><br>Adobe Photoshop/Canva</li>
+                        <li><span>Social Media Management</span><br>Content Calender/Map Planning</li>
+                        <li><span>Marketing</span><br>Desinging Banners/Content Creations</li>
+                        <li><span>Development</span><br>HTML/CSS, Javascript,Python</li>
+                    </ul>
+                </div>
+                <div class="tab-contents" id="experience">
+                    <ul>
+                        <li><span>2020-2024</span><br>Worked for esports organisations and for the Blunt Media</li>
+                        <li><span>2022-24</span><br>Worked for content creator (from 50k-100k) and 1 month internship as social media manager in The Blunt Media</li>
+                        <li><span>2020-2024</span><br>organisations marketing and planned different content strategies for creator and youtube channel The blunt Media (2024) </li>
+                        <li><span>2024-2025 - Current</span><br>Made responsive Portfolio</li>
+                    </ul>
+                </div>
+                <div class="tab-contents" id="education">
+                    <ul>
+                        <li><span>2022</span><br>Completed Professional course on adobe Photoshop from XL multimedia Institute</li>
+                        <li><span>2024</span><br>Completed the course of social media manegement from udemy and 1 month training with youvah </li>
+                        <li><span>2024-2028 - Currently</span><br>Pursuing B.tech from Newton school of Techonology </li>
+                        <li><span>2022</span><br>Passed 10th from State Board(H.P Board)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ------------------services---------------- -->
+
+<div id="services">
+    <div class="container">
+        <h1 class="sub-title">My Services</h1>
+        <div class="services-list">
+            <div>
+                <h2>Banner Design</h2>
+                <p>Lorem ipsum dolor sit,accusamus animi voluptatem.</p>
+                <a href="#">learn more</a>
+            </div>
+            <div>
+                <h2>Social Media Management</h2>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.animi voluptatem.</p>
+                <a href="#">learn more</a>
+            </div>
+            <div>
+                <h2>Front-end Design</h2>
+                <p>Lorem ipsum dolae,architecto accusamus animi voluptatem.</p>
+                <a href="#">learn more</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var tablinks = document.getElementsByClassName("tab-links");
+    var tabcontents = document.getElementsByClassName("tab-contents");
+    function opentab(tabname){
+        for(tablink of tablinks){
+            tablink.classList.remove("active-link");   /*It will rmeove active ctab links*/
+        }
+        for(tabcontent of tabcontents){
+            tabcontent.classList.remove("active-tab");  
+        }
+        event.currentTarget.classList.add("active-link")
+        document.getElementById(tabname).classList.add("active-tab")
+    }
+</script>
+</body>
+</html>
