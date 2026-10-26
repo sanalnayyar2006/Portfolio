@@ -11,7 +11,7 @@ const MODEL_PATH = "/model/model.glb"
 // Preload the GLB model in browser
 useGLTF.preload(MODEL_PATH)
 
-function SceneContent({ isHovered, pointerPos }) {
+function SceneContent({ isHovered, pointerPos, pointerPosRef }) {
   const { scene, animations } = useGLTF(MODEL_PATH)
   const groupRef = useRef(null)
   const { camera, size: canvasSize } = useThree()
@@ -138,11 +138,13 @@ function SceneContent({ isHovered, pointerPos }) {
     let targetNeckY = 0
     let targetSpineY = 0
 
-    if (isHovered && pointerPos) {
-      targetHeadY = pointerPos.x * 0.42
-      targetHeadX = -pointerPos.y * 0.25
-      targetNeckY = pointerPos.x * 0.15
-      targetSpineY = pointerPos.x * 0.1
+    const coords = pointerPosRef?.current || pointerPos
+
+    if (isHovered && coords) {
+      targetHeadY = coords.x * 0.42
+      targetHeadX = -coords.y * 0.25
+      targetNeckY = coords.x * 0.15
+      targetSpineY = coords.x * 0.1
     }
 
     if (head && baseHeadRot) {
@@ -252,7 +254,7 @@ function SceneContent({ isHovered, pointerPos }) {
   )
 }
 
-export default function CharacterSceneCanvas({ isHovered, pointerPos }) {
+export default function CharacterSceneCanvas({ isHovered, pointerPos, pointerPosRef }) {
   return (
     <Canvas
       camera={{ fov: 28, near: 0.1, far: 20 }}
@@ -261,10 +263,14 @@ export default function CharacterSceneCanvas({ isHovered, pointerPos }) {
         alpha: true,
         powerPreference: "high-performance",
       }}
-      dpr={[1, 2]}
+      dpr={[1, 1.5]}
       className="w-full h-full pointer-events-none"
     >
-      <SceneContent isHovered={isHovered} pointerPos={pointerPos} />
+      <SceneContent
+        isHovered={isHovered}
+        pointerPos={pointerPos}
+        pointerPosRef={pointerPosRef}
+      />
     </Canvas>
   )
 }

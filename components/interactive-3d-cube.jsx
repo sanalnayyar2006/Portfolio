@@ -23,6 +23,10 @@ export default function Interactive3DCube() {
   const [isDragging, setIsDragging] = useState(false)
   const [activeFace, setActiveFace] = useState("name")
 
+  const cubeRef = useRef(null)
+  const telemetryRef = useRef(null)
+  const dragRafRef = useRef(null)
+
   // Refs for tracking drag physics without unnecessary re-renders
   const stateRef = useRef({
     isDragging: false,
@@ -31,7 +35,7 @@ export default function Interactive3DCube() {
     lastX: 0,
     lastY: 0,
     rotX: -10,
-    rotY: 12,
+    rotY: 44,
     velX: 0,
     velY: 0,
     animationFrameId: null,
@@ -43,12 +47,28 @@ export default function Interactive3DCube() {
     stateRef.current.rotY = rotation.y
   }, [rotation])
 
+  // Direct DOM update helper avoiding React component re-rendering during drag / animation
+  const updateCubeTransform = useCallback((rotX, rotY, withTransition = false) => {
+    const rx = Math.round(rotX)
+    const ry = Math.round(rotY)
+    if (cubeRef.current) {
+      cubeRef.current.style.transition = withTransition
+        ? "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)"
+        : "none"
+      cubeRef.current.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`
+    }
+    if (telemetryRef.current) {
+      telemetryRef.current.textContent = `X: ${rx}° | Y: ${ry}°`
+    }
+  }, [])
+
   // Mouse / Touch Drag Handlers
   const handlePointerDown = (e) => {
     // If clicking an interactive button or link, don't initiate drag
     if (e.target.closest("a, button, input, textarea")) return
 
     setIsDragging(true)
+    setActiveFace("custom")
     stateRef.current.isDragging = true
     stateRef.current.startX = e.clientX
     stateRef.current.startY = e.clientY
@@ -59,6 +79,13 @@ export default function Interactive3DCube() {
 
     if (stateRef.current.animationFrameId) {
       cancelAnimationFrame(stateRef.current.animationFrameId)
+    }
+    if (dragRafRef.current) {
+      cancelAnimationFrame(dragRafRef.current)
+      dragRafRef.current = null
+    }
+    if (cubeRef.current) {
+      cubeRef.current.style.transition = "none"
     }
   }
 
@@ -81,17 +108,27 @@ export default function Interactive3DCube() {
     // Clamp X rotation slightly to prevent inverted gimbal lock flip
     stateRef.current.rotX = Math.max(-85, Math.min(85, stateRef.current.rotX))
 
-    setRotation({
-      x: Math.round(stateRef.current.rotX),
-      y: Math.round(stateRef.current.rotY),
-    })
-    setActiveFace("custom")
-  }, [])
+    // Throttle DOM transforms to screen refresh rate (60/120Hz)
+    if (!dragRafRef.current) {
+      dragRafRef.current = requestAnimationFrame(() => {
+        updateCubeTransform(stateRef.current.rotX, stateRef.current.rotY, false)
+        dragRafRef.current = null
+      })
+    }
+  }, [updateCubeTransform])
 
   const handlePointerUp = useCallback(() => {
     if (!stateRef.current.isDragging) return
     stateRef.current.isDragging = false
     setIsDragging(false)
+
+    if (dragRafRef.current) {
+      cancelAnimationFrame(dragRafRef.current)
+      dragRafRef.current = null
+    }
+
+    // Flush latest position immediately on release
+    updateCubeTransform(stateRef.current.rotX, stateRef.current.rotY, false)
 
     // Gentle momentum release that smoothly halts and STAYS at final position
     const applyFriction = () => {
@@ -108,14 +145,12 @@ export default function Interactive3DCube() {
 
         stateRef.current.rotX = Math.max(-85, Math.min(85, stateRef.current.rotX))
 
-        setRotation({
-          x: Math.round(stateRef.current.rotX),
-          y: Math.round(stateRef.current.rotY),
-        })
+        updateCubeTransform(stateRef.current.rotX, stateRef.current.rotY, false)
 
         stateRef.current.animationFrameId = requestAnimationFrame(applyFriction)
       } else {
         // Firm stop: Cube stays EXACTLY where user released it
+        updateCubeTransform(stateRef.current.rotX, stateRef.current.rotY, false)
         setRotation({
           x: Math.round(stateRef.current.rotX),
           y: Math.round(stateRef.current.rotY),
@@ -124,7 +159,7 @@ export default function Interactive3DCube() {
     }
 
     stateRef.current.animationFrameId = requestAnimationFrame(applyFriction)
-  }, [])
+  }, [updateCubeTransform])
 
   useEffect(() => {
     window.addEventListener("pointermove", handlePointerMove)
@@ -134,6 +169,9 @@ export default function Interactive3DCube() {
       window.removeEventListener("pointerup", handlePointerUp)
       if (stateRef.current.animationFrameId) {
         cancelAnimationFrame(stateRef.current.animationFrameId)
+      }
+      if (dragRafRef.current) {
+        cancelAnimationFrame(dragRafRef.current)
       }
     }
   }, [handlePointerMove, handlePointerUp])
@@ -170,10 +208,16 @@ export default function Interactive3DCube() {
         break
     }
 
+    if (stateRef.current.animationFrameId) {
+      cancelAnimationFrame(stateRef.current.animationFrameId)
+    }
+
     stateRef.current.rotX = targetX
     stateRef.current.rotY = targetY
     stateRef.current.velX = 0
     stateRef.current.velY = 0
+
+    updateCubeTransform(targetX, targetY, true)
     setRotation({ x: targetX, y: targetY })
   }
 
@@ -223,7 +267,10 @@ export default function Interactive3DCube() {
               {isDragging ? "ROTATING" : "LOCKED AT POSITION"}
             </span>
           </div>
-          <div className="px-2 py-0.5 bg-[#151822] border border-[#232838] text-[#f1f3f9]">
+          <div
+            ref={telemetryRef}
+            className="px-2 py-0.5 bg-[#151822] border border-[#232838] text-[#f1f3f9]"
+          >
             X: {rotation.x}° | Y: {rotation.y}°
           </div>
         </div>
@@ -241,6 +288,7 @@ export default function Interactive3DCube() {
 
         {/* The 3D Cube Container */}
         <div
+          ref={cubeRef}
           style={{
             width: `${halfSize * 2}px`,
             height: `${halfSize * 2}px`,
@@ -259,7 +307,7 @@ export default function Interactive3DCube() {
               width: `${halfSize * 2}px`,
               height: `${halfSize * 2}px`,
             }}
-            className="absolute inset-0 bg-[#0e1119] border-2 border-[#2b3244] p-6 flex flex-col justify-between shadow-2xl backface-visible"
+            className="absolute inset-0 bg-[#0e1119] border-2 border-[#2b3244] p-6 flex flex-col justify-between shadow-md backface-visible"
           >
             {/* Header */}
             <div>
@@ -323,7 +371,7 @@ export default function Interactive3DCube() {
               width: `${halfSize * 2}px`,
               height: `${halfSize * 2}px`,
             }}
-            className="absolute inset-0 bg-[#0e1119] border-2 border-[#2b3244] p-4 flex flex-col justify-between shadow-2xl backface-visible"
+            className="absolute inset-0 bg-[#0e1119] border-2 border-[#2b3244] p-4 flex flex-col justify-between shadow-md backface-visible"
           >
             <div>
               <div className="flex items-center justify-between border-b border-[#202636] pb-2 mb-2">
@@ -368,7 +416,7 @@ export default function Interactive3DCube() {
               width: `${halfSize * 2}px`,
               height: `${halfSize * 2}px`,
             }}
-            className="absolute inset-0 bg-[#0e1119] border-2 border-[#2b3244] p-5 flex flex-col justify-between shadow-2xl backface-visible"
+            className="absolute inset-0 bg-[#0e1119] border-2 border-[#2b3244] p-5 flex flex-col justify-between shadow-md backface-visible"
           >
             <div>
               <div className="flex items-center justify-between border-b border-[#202636] pb-2 mb-2">
@@ -431,7 +479,7 @@ export default function Interactive3DCube() {
               width: `${halfSize * 2}px`,
               height: `${halfSize * 2}px`,
             }}
-            className="absolute inset-0 bg-[#0e1119] border-2 border-[#2b3244] p-5 flex flex-col justify-between shadow-2xl backface-visible"
+            className="absolute inset-0 bg-[#0e1119] border-2 border-[#2b3244] p-5 flex flex-col justify-between shadow-md backface-visible"
           >
             <div>
               <div className="flex items-center justify-between border-b border-[#202636] pb-2 mb-2">
@@ -510,7 +558,7 @@ export default function Interactive3DCube() {
               width: `${halfSize * 2}px`,
               height: `${halfSize * 2}px`,
             }}
-            className="absolute inset-0 bg-[#0c0e16] border-2 border-[#2b3244] p-5 flex flex-col justify-between shadow-2xl backface-visible"
+            className="absolute inset-0 bg-[#0c0e16] border-2 border-[#2b3244] p-5 flex flex-col justify-between shadow-md backface-visible"
           >
             <div className="flex items-center justify-between border-b border-[#1f2536] pb-2">
               <span className="text-[10px] font-mono text-[#ff5219]">TOP ELEVATION</span>
@@ -542,7 +590,7 @@ export default function Interactive3DCube() {
               width: `${halfSize * 2}px`,
               height: `${halfSize * 2}px`,
             }}
-            className="absolute inset-0 bg-[#0c0e16] border-2 border-[#2b3244] p-5 flex flex-col justify-between shadow-2xl backface-visible"
+            className="absolute inset-0 bg-[#0c0e16] border-2 border-[#2b3244] p-5 flex flex-col justify-between shadow-md backface-visible"
           >
             <div className="flex items-center justify-between border-b border-[#1f2536] pb-2">
               <span className="text-[10px] font-mono text-[#ff5219]">Had to put up something </span>
