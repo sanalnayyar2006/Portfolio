@@ -11,7 +11,7 @@ export default function Footer() {
             </div>
             <div>
               <div className="text-base font-bold text-[#f1f3f9] font-mono tracking-wider">
-                SANAL NAYYAR
+                SANAL.NAYYAR
               </div>
               <p className="text-xs text-[#7e899b] font-mono mt-0.5">
                 FULL-STACK & 3D INTERACTIVE SYSTEMS STUDIO
