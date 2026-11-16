@@ -146,7 +146,7 @@ export default function Hero() {
             {/* Social Channels (Tactile Badges) */}
             <div className="flex items-center gap-3 pt-1 text-xs font-mono">
               <a
-                href="https://github.com"
+                href="https://github.com/sanalnayyar2006"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3 py-1.5 bg-[#11141b] border border-[#242938] text-[#8a94a6] hover:text-white hover:border-[#3e465e] transition-colors flex items-center gap-2"
@@ -155,7 +155,7 @@ export default function Hero() {
                 <span>GITHUB</span>
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/sanal-nayyar-079074263"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3 py-1.5 bg-[#11141b] border border-[#242938] text-[#8a94a6] hover:text-white hover:border-[#3e465e] transition-colors flex items-center gap-2"
@@ -164,7 +164,7 @@ export default function Hero() {
                 <span>LINKEDIN</span>
               </a>
               <a
-                href="mailto:sanal.nayyar@example.com"
+                href="mailto:sanalsquad@gmail.com"
                 className="px-3 py-1.5 bg-[#11141b] border border-[#242938] text-[#8a94a6] hover:text-white hover:border-[#3e465e] transition-colors flex items-center gap-2"
               >
                 <Mail size={14} />

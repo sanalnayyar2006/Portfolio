@@ -139,34 +139,14 @@ function Project3DCard({ project, index }) {
 export default function Projects() {
   const projects = [
     {
-      title: "E-Commerce Architecture Platform",
-      category: "FULL-STACK / COMMERCE",
+      title: "TwinFlame — Real-Time PWA",
+      category: "FULL-STACK PWA",
       description:
-        "Engineered full-stack transactional commerce system with sub-100ms API response times, PostgreSQL ACID guarantees, and automated order fulfillment pipelines.",
+        "A private real-time PWA for couples featuring instant WebSocket sync, timezone-aware daily prompts, streaks, shared journals, and offline app-shell caching.",
       image: "/modern-ecommerce-interface.png",
-      tech: ["React 19", "Node.js", "PostgreSQL", "Stripe API"],
-      github: "https://github.com",
-      live: "https://example.com",
-    },
-    {
-      title: "Real-Time Task Collab Matrix",
-      category: "DISTRIBUTED WORKFLOW",
-      description:
-        "High-concurrency collaborative workspace utilizing WebSockets for real-time team synchronization, state conflict resolution, and granular event tracking.",
-      image: "/task-management-dashboard.png",
-      tech: ["Next.js 14", "Socket.io", "MongoDB", "Tailwind"],
-      github: "https://github.com",
-      live: "https://example.com",
-    },
-    {
-      title: "Spatial Weather & Sensor Telemetry",
-      category: "DATA VISUALIZATION / 3D",
-      description:
-        "High-density meteorological visualization engine consuming satellite feeds with real-time vector charting, historical trend analysis, and GPU-assisted shaders.",
-      image: "/weather-analytics-dashboard-with-charts.jpg",
-      tech: ["Three.js", "D3.js", "Python Fast-API", "WebSockets"],
-      github: "https://github.com",
-      live: "https://example.com",
+      tech: ["React 19", "Node.js", "Socket.IO", "MongoDB"],
+      github: "https://github.com/sanalnayyar2006/TwinFlame-mern",
+      live: "https://twinflame-mern.onrender.com",
     },
   ]
 

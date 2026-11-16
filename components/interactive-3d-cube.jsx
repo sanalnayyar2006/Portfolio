@@ -15,6 +15,7 @@ import {
   ArrowUpRight,
   Code2,
   Box,
+  X,
 } from "lucide-react"
 
 export default function Interactive3DCube() {
@@ -242,6 +243,37 @@ export default function Interactive3DCube() {
     { name: "Docker", category: "DEVOPS" },
   ]
 
+  const projectsList = [
+    {
+      id: "twinflame",
+      faceTitle: "TWINFLAME",
+      faceTag: "SOCKET.IO",
+      faceTagColor: "#ff5219",
+      summary: "Private real-time PWA for couples with live sync.",
+      title: "TwinFlame — Real-Time PWA",
+      category: "FULL-STACK PWA",
+      description:
+        "A private real-time PWA for couples featuring instant WebSocket sync, timezone-aware daily prompts, streaks, shared journals, and offline app-shell caching.",
+      image: "/twinflame.png",
+      tech: ["React 19", "Node.js", "Socket.IO", "MongoDB"],
+      github: "https://github.com/sanalnayyar2006/TwinFlame-mern",
+      live: "https://twinflame-mern.onrender.com",
+    },
+  ]
+
+  const [selectedProjectId, setSelectedProjectId] = useState(null)
+  const selectedIndex = projectsList.findIndex((p) => p.id === selectedProjectId)
+  const selectedProject = selectedIndex >= 0 ? projectsList[selectedIndex] : null
+
+  useEffect(() => {
+    if (!selectedProjectId) return
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setSelectedProjectId(null)
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [selectedProjectId])
+
   // Dimension: Cube half-size is 190px (380px cube)
   const halfSize = 190
 
@@ -433,39 +465,33 @@ export default function Interactive3DCube() {
 
             {/* Projects list */}
             <div className="space-y-2.5 font-mono text-xs">
-              <div className="p-2.5 bg-[#131722] border border-[#232a3a]">
-                <div className="flex items-center justify-between text-[#f1f3f9] font-semibold text-[11px]">
-                  <span>01. E-COMMERCE PLATFORM</span>
-                  <span className="text-[9px] text-[#ff5219]">POSTGRES</span>
-                </div>
-                <p className="text-[10px] text-[#8a94a6] mt-1 line-clamp-1">
-                  High-throughput transactional engine with Stripe & Next.js.
-                </p>
-              </div>
-
-              <div className="p-2.5 bg-[#131722] border border-[#232a3a]">
-                <div className="flex items-center justify-between text-[#f1f3f9] font-semibold text-[11px]">
-                  <span>02. TASK COLLAB MATRIX</span>
-                  <span className="text-[9px] text-[#38bdf8]">SOCKET.IO</span>
-                </div>
-                <p className="text-[10px] text-[#8a94a6] mt-1 line-clamp-1">
-                  Real-time multi-tenant collaboration workspace.
-                </p>
-              </div>
-
-              <div className="p-2.5 bg-[#131722] border border-[#232a3a]">
-                <div className="flex items-center justify-between text-[#f1f3f9] font-semibold text-[11px]">
-                  <span>03. 3D WEATHER TELEMETRY</span>
-                  <span className="text-[9px] text-[#10b981]">THREE.JS</span>
-                </div>
-                <p className="text-[10px] text-[#8a94a6] mt-1 line-clamp-1">
-                  GPU-assisted geospatial visualization & shaders.
-                </p>
-              </div>
+              {projectsList.map((project, index) => (
+                <button
+                  key={project.id}
+                  type="button"
+                  onClick={() =>
+                    setSelectedProjectId((current) => (current === project.id ? null : project.id))
+                  }
+                  aria-expanded={selectedProjectId === project.id}
+                  className={`block w-full text-left p-2.5 bg-[#131722] border transition-colors cursor-pointer hover:border-[#ff5219] ${
+                    selectedProjectId === project.id ? "border-[#ff5219]" : "border-[#232a3a]"
+                  }`}
+                >
+                  <div className="flex items-center justify-between text-[#f1f3f9] font-semibold text-[11px]">
+                    <span>
+                      {String(index + 1).padStart(2, "0")}. {project.faceTitle}
+                    </span>
+                    <span className="text-[9px]" style={{ color: project.faceTagColor }}>
+                      {project.faceTag}
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-[#8a94a6] mt-1 line-clamp-1">{project.summary}</p>
+                </button>
+              ))}
             </div>
 
             <div className="pt-2 border-t border-[#1c2230] flex items-center justify-between text-[10px] font-mono text-[#7e899b]">
-              <span>CODEBASE: REPRODUCIBLE</span>
+              <span>CLICK A PROJECT FOR DETAILS</span>
               <span className="text-[#ff5219]">READY</span>
             </div>
           </div>
@@ -497,7 +523,7 @@ export default function Interactive3DCube() {
             {/* Social Links */}
             <div className="space-y-3 my-auto">
               <a
-                href="https://github.com"
+                href="https://github.com/sanalnayyar2006"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 bg-[#141824] border border-[#252c3e] hover:border-[#ff5219] hover:bg-[#1a2030] transition-colors flex items-center justify-between text-xs font-mono group"
@@ -507,13 +533,13 @@ export default function Interactive3DCube() {
                   <span className="font-semibold">GITHUB</span>
                 </div>
                 <div className="flex items-center gap-1 text-[11px] text-[#7e899b] group-hover:text-[#ff5219]">
-                  <span>@sanalnayyar</span>
+                  <span>@sanalnayyar2006</span>
                   <ArrowUpRight size={13} />
                 </div>
               </a>
 
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/sanal-nayyar-079074263"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 bg-[#141824] border border-[#252c3e] hover:border-[#ff5219] hover:bg-[#1a2030] transition-colors flex items-center justify-between text-xs font-mono group"
@@ -523,13 +549,13 @@ export default function Interactive3DCube() {
                   <span className="font-semibold">LINKEDIN</span>
                 </div>
                 <div className="flex items-center gap-1 text-[11px] text-[#7e899b] group-hover:text-[#38bdf8]">
-                  <span>/in/sanal-nayyar</span>
+                  <span>/in/sanal-nayyar-079074263</span>
                   <ArrowUpRight size={13} />
                 </div>
               </a>
 
               <a
-                href="mailto:sanal.nayyar@example.com"
+                href="mailto:sanalsquad@gmail.com"
                 className="p-3 bg-[#141824] border border-[#252c3e] hover:border-[#10b981] hover:bg-[#1a2030] transition-colors flex items-center justify-between text-xs font-mono group"
               >
                 <div className="flex items-center gap-2.5 text-[#f1f3f9]">
@@ -562,18 +588,15 @@ export default function Interactive3DCube() {
           >
             <div className="flex items-center justify-between border-b border-[#1f2536] pb-2">
               <span className="text-[10px] font-mono text-[#ff5219]">TOP ELEVATION</span>
-              <span className="text-[10px] font-mono text-[#7e899b]">METRICS.SLA</span>
+              <span className="text-[10px] font-mono text-[#7e899b]">Just FillingUp</span>
             </div>
 
             <div className="space-y-3 font-mono text-xs my-auto">
               <div className="p-2.5 bg-[#131722] border border-[#232a3a] flex items-center justify-between">
                 <span className="text-[#8a94a6] text-[11px]">EXPERIENCE</span>
-                <span className="text-[#f1f3f9] font-bold text-xs">5+ YEARS PROD</span>
+                <span className="text-[#f1f3f9] font-bold text-xs">YesYes</span>
               </div>
-              <div className="p-2.5 bg-[#131722] border border-[#232a3a] flex items-center justify-between">
-                <span className="text-[#8a94a6] text-[11px]">SYSTEM SLA</span>
-                <span className="text-[#10b981] font-bold text-xs">99.98% UPTIME</span>
-              </div>
+              
             </div>
 
             <div className="text-center text-[9px] font-mono text-[#525c72]">
@@ -608,6 +631,80 @@ export default function Interactive3DCube() {
             </div>
           </div>
         </div>
+
+        {/* Project detail card: beside the cube on wide screens, overlaid on smaller ones */}
+        {selectedProject && (
+          <div
+            onPointerDown={(e) => e.stopPropagation()}
+            className="absolute z-20 inset-x-4 top-4 bottom-4 xl:inset-x-auto xl:bottom-auto xl:top-1/2 xl:-translate-y-1/2 xl:left-[calc(50%+230px)] xl:w-[340px] xl:max-h-[calc(100%-2rem)] overflow-y-auto cursor-auto select-text bg-[#0e1119] border-2 border-[#2b3244] p-5 shadow-md"
+          >
+            <div className="flex items-center justify-between text-xs font-mono text-[#7e899b] border-b border-[#1f2432] pb-3 mb-4">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="text-[#ff5219] font-bold shrink-0">
+                  PROJECT {String(selectedIndex + 1).padStart(2, "0")}
+                </span>
+                <span>//</span>
+                <span className="text-[#a0aec0] truncate">{selectedProject.category}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedProjectId(null)}
+                className="shrink-0 ml-2 px-1.5 py-0.5 bg-[#161a24] border border-[#262c3c] text-[#8a94a6] hover:text-white hover:border-[#3d465c] cursor-pointer"
+                aria-label="Close project details"
+              >
+                <X size={12} />
+              </button>
+            </div>
+
+            <div className="relative h-40 w-full overflow-hidden border border-[#232838] bg-[#12151d] mb-5">
+              <img
+                src={selectedProject.image || "/placeholder.svg"}
+                alt={selectedProject.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold text-[#f1f3f9] uppercase tracking-wide">
+                {selectedProject.title}
+              </h3>
+
+              <p className="text-sm text-[#8a94a6] leading-relaxed">{selectedProject.description}</p>
+
+              <div className="flex flex-wrap gap-1.5 pt-1 font-mono text-[11px]">
+                {selectedProject.tech.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-2 py-0.5 bg-[#141722] border border-[#222838] text-[#9ca3af]"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-3 pt-3 border-t border-[#1f2432]">
+                <a
+                  href={selectedProject.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-tactile flex-1 py-2 text-xs flex items-center justify-center gap-2"
+                >
+                  <Github size={14} />
+                  <span>SOURCE</span>
+                </a>
+                <a
+                  href={selectedProject.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-tactile btn-tactile-primary flex-1 py-2 text-xs flex items-center justify-center gap-2"
+                >
+                  <ExternalLink size={14} />
+                  <span>LIVE DEMO</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Interactive Quick Snap Navigation Bar (Bottom HUD) */}

@@ -21,7 +21,7 @@ export default function Footer() {
 
           <div className="flex items-center gap-2 font-mono text-xs">
             <a
-              href="https://github.com"
+              href="https://github.com/sanalnayyar2006"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 bg-[#12151d] border border-[#222634] text-[#8a94a6] hover:text-[#f1f3f9] hover:border-[#384156] transition-colors"
@@ -30,7 +30,7 @@ export default function Footer() {
               <Github size={16} />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/sanal-nayyar-079074263"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 bg-[#12151d] border border-[#222634] text-[#8a94a6] hover:text-[#f1f3f9] hover:border-[#384156] transition-colors"
@@ -39,7 +39,7 @@ export default function Footer() {
               <Linkedin size={16} />
             </a>
             <a
-              href="mailto:sanal.nayyar@example.com"
+              href="mailto:sanalsquad@gmail.com"
               className="p-2 bg-[#12151d] border border-[#222634] text-[#8a94a6] hover:text-[#f1f3f9] hover:border-[#384156] transition-colors"
               title="Email"
             >

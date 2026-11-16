@@ -29,7 +29,7 @@ export default function Home() {
 
             <div className="flex items-center gap-2">
               <a
-                href="https://github.com"
+                href="https://github.com/sanalnayyar2006"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 bg-[#12151e] border border-[#222634] text-[#8a94a6] hover:text-[#f1f3f9] hover:border-[#384156] transition-colors"
@@ -38,7 +38,7 @@ export default function Home() {
                 <Github size={16} />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/sanal-nayyar-079074263"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 bg-[#12151e] border border-[#222634] text-[#8a94a6] hover:text-[#f1f3f9] hover:border-[#384156] transition-colors"
@@ -47,7 +47,7 @@ export default function Home() {
                 <Linkedin size={16} />
               </a>
               <a
-                href="mailto:sanal.nayyar@example.com"
+                href="mailto:sanalsquad@gmail.com"
                 className="btn-tactile px-3.5 py-1.5 flex items-center gap-2 cursor-pointer"
                 title="Direct Email Dispatch"
               >
