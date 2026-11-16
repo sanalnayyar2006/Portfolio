@@ -109,7 +109,7 @@ function SceneContent({ isHovered, pointerPos, pointerPosRef }) {
 
     // Compute camera distance so full body fits comfortably from head to toe
     const fov = camera.fov || 28
-    const padding = 1.12 // 12% breathing room so shoes and head top are never clipped
+    const padding = 1.04 // small breathing room so shoes, head and hands are never clipped
     const aspect = Math.max(canvasSize.width / Math.max(canvasSize.height, 1), 0.3)
 
     const distY = (modelSize.y * padding) / (2 * Math.tan((fov * Math.PI) / 360))

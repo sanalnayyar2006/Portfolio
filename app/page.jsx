@@ -1,27 +1,23 @@
 import Interactive3DCube from "../components/interactive-3d-cube"
-import CharacterModel from "../components/character-model"
 import { Github, Linkedin, Mail, Terminal } from "lucide-react"
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#090a0f] text-[#f1f3f9] flex flex-col justify-between blueprint-grid selection:bg-[#ff5219]/20 selection:text-white">
       {/* Top Header: Clean, Architectural, Focused */}
-      <header className="border-b border-[#222634] bg-[#090a0f]/95 px-6 py-4">
-        <div className="container mx-auto max-w-7xl flex flex-wrap items-center justify-between gap-4">
+      <header className="border-b border-[#222634] bg-[#090a0f]/95 py-5 sm:py-6">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-x-8 gap-y-5">
           {/* Identity & Spec */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <CharacterModel className="h-20 sm:h-[84px] w-14 sm:w-16" />
-            <div>
-              <h1 className="text-xl font-bold font-mono tracking-wider text-[#f1f3f9] uppercase leading-none">
-                SANAL NAYYAR
-              </h1>
-              <p className="text-xs font-mono text-[#7e899b] tracking-wide mt-1">
-                SOFTWARE ENGINEER & SYSTEMS BUILDER
-              </p>
-              <p className="text-xs font-mono text-[#7e899b] tracking-wide mt-1">
-                Building AI-powered applications,interactive experiences, and technical business solutions.
-              </p>
-            </div>
+          <div className="min-w-0 max-w-2xl border-l-2 border-[#ff5219] pl-4 sm:pl-5">
+            <h1 className="text-2xl sm:text-3xl font-bold font-mono tracking-wider text-[#f1f3f9] uppercase leading-none">
+              SANAL NAYYAR
+            </h1>
+            <p className="text-xs sm:text-sm font-mono text-[#ff5219] tracking-widest mt-2.5">
+              SOFTWARE ENGINEER & SYSTEMS BUILDER
+            </p>
+            <p className="text-xs sm:text-[13px] font-mono text-[#7e899b] tracking-wide leading-relaxed mt-1.5">
+              Building AI-powered applications,interactive experiences, and technical business solutions.
+            </p>
           </div>
 
           {/* Status & Quick Channels */}
@@ -64,15 +60,15 @@ export default function Home() {
       </header>
 
       {/* Main Viewport: The Complete Interactive 3D Spatial Cube */}
-      <section className="flex-1 container mx-auto max-w-7xl px-4 sm:px-6 py-6 flex flex-col justify-center">
+      <section className="flex-1 container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col justify-center">
         <div className="w-full h-full flex-1">
           <Interactive3DCube />
         </div>
       </section>
 
       {/* Minimal Footer Stamp */}
-      <footer className="border-t border-[#1c202c] bg-[#08090d] px-6 py-3 font-mono text-[11px] text-[#7e899b]">
-        <div className="container mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-2">
+      <footer className="border-t border-[#1c202c] bg-[#08090d] py-3 font-mono text-[11px] text-[#7e899b]">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <span className="text-[#ff5219]">●</span>
             <span>Sanal's PORTFOLIO</span>
